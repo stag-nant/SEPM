@@ -1,0 +1,11 @@
+app.py:
+
+[python app.py] in one terminal
+
+
+[ curl -X POST http://127.0.0.1:5000/upload -H "Content-Type: application/json" -d "{\"code\": \"eval(input())\"}" ]  in another terminal CMD 
+
+or
+
+[ curl -X POST http://127.0.0.1:5000/upload -H "Content-Type: application/json" -d '{\"code\": \"eval(input())\"}' ]  in another terminal powerhell
+
