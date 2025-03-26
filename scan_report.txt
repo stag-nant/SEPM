@@ -1,0 +1,61 @@
+SafeCode Vulnerability Scan Report
+========================================
+
+Timestamp: 2025-03-19T14:21:12.239918
+Scanned Code:
+import sqlite3
+
+user_input = input("Enter username: ")
+query = "SELECT * FROM users WHERE username = '" + user_input + "';"
+
+conn = sqlite3.connect("database.db")
+cursor = conn.cursor()
+cursor.execute(query)
+result = cursor.fetchall()
+print(result)
+
+
+Detected Vulnerabilities:
+  - Keyword: exec
+    Severity: High
+    Fix: Replace exec() with safer alternatives.
+
+  - Keyword: input
+    Severity: Medium
+    Fix: Sanitize user input properly.
+
+  - Keyword: print
+    Severity: Low
+    Fix: Remove debug statements in production.
+
+========================================
+
+Timestamp: 2025-03-19T14:21:40.968334
+Scanned Code:
+import sqlite3
+
+user_input = input("Enter username: ")
+query = "SELECT * FROM users WHERE username = '" + user_input + "';"
+
+conn = sqlite3.connect("database.db")
+cursor = conn.cursor()
+cursor.execute(query)
+result = cursor.fetchall()
+print(result)
+
+
+Detected Vulnerabilities:
+  - Keyword: exec
+    Severity: High
+    Fix: Replace exec() with safer alternatives.
+
+  - Keyword: input
+    Severity: Medium
+    Fix: Sanitize user input properly.
+
+  - Keyword: print
+    Severity: Low
+    Fix: Remove debug statements in production.
+
+========================================
+

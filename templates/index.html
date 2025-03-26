@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SafeCode - Secure Code Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>SafeCode Framework - Secure Code Scanner</h1>
+</header>
+
+<main>
+    <div class="container">
+        <textarea id="codeInput" placeholder="Enter your Python code here..."></textarea>
+        <button onclick="uploadCode()">Scan Code</button>
+
+        <div id="result"></div>
+
+        <a href="/report" download>
+            <button>Download Report</button>
+        </a>
+    </div>
+</main>
+
+<footer>
+    <p>© 2025 SafeCode Framework. All Rights Reserved.</p>
+</footer>
+
+<script>
+    async function uploadCode() {
+        const code = document.getElementById("codeInput").value;
+
+        const response = await fetch('/upload', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ code })
+        });
+
+        const data = await response.json();
+
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `
+            <h3>Scan Result:</h3>
+            <pre>${JSON.stringify(data, null, 2)}</pre>
+        `;
+    }
+</script>
+
+</body>
+</html>
