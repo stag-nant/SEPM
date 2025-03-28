@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - SafeCode</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header>
+    <h1>Admin Dashboard</h1>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <section>
+        <h2>📢 Send Platform Update</h2>
+        <textarea id="adminMessage" placeholder="Write an update to users..."></textarea>
+        <button onclick="sendUpdate()">Send Update</button>
+      </section>
+
+      <section>
+        <h2>📝 All Notifications</h2>
+        <ul>
+          {% for note in notifications %}
+            <li>
+              <strong>{{ note.type.upper() }}:</strong> {{ note.message }}<br/>
+              <small>{{ note.timestamp }}</small>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section>
+        <h2>🧾 Scan Logs</h2>
+        {% for log in logs %}
+          <div class="log">
+            <p><strong>Time:</strong> {{ log.timestamp }}</p>
+            <p><strong>Code:</strong> <pre>{{ log.code }}</pre></p>
+            <p><strong>Vulnerabilities:</strong> {{ log.vulnerabilities }}</p>
+            <hr/>
+          </div>
+        {% endfor %}
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 SafeCode Framework. Admin Panel</p>
+  </footer>
+
+  <script>
+    async function sendUpdate() {
+      const msg = document.getElementById("adminMessage").value;
+      const res = await fetch("/admin/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+      });
+      const data = await res.json();
+      alert(data.status || data.error);
+    }
+  </script>
+
+</body>
+</html>
