@@ -1,54 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>SafeCode - Secure Code Analysis</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeCode - Code Scanner</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* Toggle Styling */
+    .toggle-container {
+      margin: 15px 0;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+    .toggle-container input {
+      margin-right: 8px;
+    }
+
+    /* Notification Styling */
+    .notifications {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .notifications ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .notifications li {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-left: 4px solid #333;
+    }
+
+    .alert {
+      border-color: #dc3545;
+      background-color: #f8d7da;
+    }
+
+    .update {
+      border-color: #0d6efd;
+      background-color: #dbeafe;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>SafeCode Framework</h1>
+  </header>
 
-<header>
-    <h1>SafeCode Framework - Secure Code Scanner</h1>
-</header>
-
-<main>
+  <main>
     <div class="container">
-        <textarea id="codeInput" placeholder="Enter your Python code here..."></textarea>
-        <button onclick="uploadCode()">Scan Code</button>
 
-        <div id="result"></div>
+      <!-- Notifications with Styling -->
+      {% if notifications %}
+        <div class="notifications">
+          <h3>Notifications</h3>
+          <ul>
+            {% for note in notifications %}
+              <li class="{{ note.type }}">{{ note.type|capitalize }}: {{ note.message }}<br>
+                <small>{{ note.timestamp }}</small>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
 
-        <a href="/report" download>
-            <button>Download Report</button>
-        </a>
+      <!-- Code Input -->
+      <textarea id="codeInput" placeholder="Paste Python code here..."></textarea>
+
+      <!-- Privacy Toggle -->
+      <div class="toggle-container">
+        <input type="checkbox" id="privacyToggle" onchange="updateNotice()">
+        <label for="privacyToggle">Enable Privacy Scan (Code will NOT be stored)</label>
+      </div>
+
+      <button onclick="uploadCode()">Scan Code</button>
+      <a href="/report"><button>Download Report</button></a>
+
+      <div id="result"></div>
+
+      <!-- Privacy Message -->
+      <div id="privacyMessage" style="background-color: #f9f9f9; border: 1px solid #ccc; padding: 12px; margin-top: 30px; font-size: 14px; color: #333; border-radius: 6px;">
+        <strong>Privacy Notice:</strong> Your code will be scanned and stored for reporting purposes. To scan without storing, enable Privacy Scan above.
+      </div>
+
     </div>
-</main>
+  </main>
 
-<footer>
-    <p>© 2025 SafeCode Framework. All Rights Reserved.</p>
-</footer>
+  <footer>
+    <p>© 2025 SafeCode Framework</p>
+  </footer>
 
-<script>
+  <script>
     async function uploadCode() {
-        const code = document.getElementById("codeInput").value;
+      const code = document.getElementById("codeInput").value;
+      const privacy = document.getElementById("privacyToggle").checked;
 
-        const response = await fetch('/upload', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ code })
-        });
+      const endpoint = privacy ? "/api/scan" : "/upload";
 
-        const data = await response.json();
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      });
 
-        const resultDiv = document.getElementById("result");
-        resultDiv.innerHTML = `
-            <h3>Scan Result:</h3>
-            <pre>${JSON.stringify(data, null, 2)}</pre>
-        `;
+      const data = await res.json();
+      document.getElementById("result").innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
     }
-</script>
 
+    function updateNotice() {
+      const privacy = document.getElementById("privacyToggle").checked;
+      const message = document.getElementById("privacyMessage");
+
+      if (privacy) {
+        message.innerHTML = "<strong>Privacy Notice:</strong> Your code will be scanned using the API and will <u>not</u> be stored in the database or logs.";
+      } else {
+        message.innerHTML = "<strong>Privacy Notice:</strong> Your code will be scanned and stored for future reporting. Use privacy scan to avoid logging.";
+      }
+    }
+  </script>
 </body>
 </html>

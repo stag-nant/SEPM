@@ -88,6 +88,26 @@ def upload():
         "vulnerabilities": issues
     })
 
+@app.route('/api/scan', methods=['POST'])
+def api_scan():
+    data = request.get_json()
+    code = data.get("code", "")
+
+    if not code:
+        return jsonify({
+            "success": False,
+            "error": "No code provided"
+        }), 400
+
+    issues = analyze_code(code)
+
+    # Do not save code to DB for API scans (to support privacy)
+    return jsonify({
+        "success": True,
+        "vulnerabilities": issues,
+        "status": "Vulnerabilities found" if issues else "No vulnerabilities found"
+    }), 200
+
 @app.route('/report')
 def report():
     path = "scan_report.txt"

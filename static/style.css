@@ -1,74 +1,95 @@
-/* General Styles */
+/* Base Styles */
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background: #f4f4f4;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
-/* Header */
 header {
-    background: #333;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
 }
 
-/* Main Container */
 main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 10px;
 }
 
 .container {
-    width: 80%;
-    max-width: 800px;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px #ccc;
-    border-radius: 8px;
+  width: 100%;
+  max-width: 800px;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px #ccc;
+  border-radius: 8px;
 }
 
-/* Code Input Box */
 textarea {
-    width: 100%;
-    height: 200px;
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: none;
+  width: 100%;
+  height: 200px;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
 }
 
-/* Buttons */
 button {
-    display: inline-block;
-    background: #28a745;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s;
-    margin-right: 10px;
+  display: inline-block;
+  background: #28a745;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.3s;
 }
 
 button:hover {
-    background: #218838;
+  background: #218838;
 }
 
 button:disabled {
-    background: #ccc;
+  background: #ccc;
+  cursor: not-allowed;
 }
 
-/* Footer */
 footer {
-    background: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  main {
+      padding: 0 15px;
+      flex-direction: column;
+  }
+
+  .container {
+      padding: 15px;
+      box-shadow: none;
+      border-radius: 0;
+  }
+
+  textarea {
+      height: 150px;
+  }
+
+  button {
+      width: 100%;
+      font-size: 16px;
+  }
 }
