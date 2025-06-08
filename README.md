@@ -1,4 +1,4 @@
-# SafeCode Framework
+# SafeCode Framework.
 
 SafeCode Framework is a web-based secure code analysis tool developed as part of an SEPM project. It allows users to scan Python code for common security vulnerabilities, get real-time feedback, and download scan reports. An admin dashboard is included for managing platform alerts and monitoring scan activity.
 
